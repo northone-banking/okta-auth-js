@@ -15,6 +15,7 @@ export interface CookieOptions {
   secure?: boolean;
   sameSite?: string | boolean;
   expires?: Date;
+  domain?: string;
 }
 
 export interface SetCookieOptions extends CookieOptions {

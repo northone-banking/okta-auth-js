@@ -134,6 +134,7 @@ var storageUtil: BrowserStorageUtil = {
   getCookieStorage: function(options): CookieStorage {
     const secure = options.secure;
     const sameSite = options.sameSite;
+    const domain = options.domain;
     if (typeof secure === 'undefined' || typeof sameSite === 'undefined') {
       throw new AuthSdkError('getCookieStorage: "secure" and "sameSite" options must be provided');
     }
@@ -144,7 +145,8 @@ var storageUtil: BrowserStorageUtil = {
         expiresAt = typeof expiresAt === 'undefined' ? '2200-01-01T00:00:00.000Z' : expiresAt;
         storageUtil.storage.set(key, value, expiresAt, {
           secure: secure, 
-          sameSite: sameSite
+          sameSite: sameSite,
+          domain: domain
         });
       },
       removeItem: function(key) {
@@ -222,13 +224,15 @@ var storageUtil: BrowserStorageUtil = {
     set: function(name: string, value: string, expiresAt: string, options: CookieOptions): string {
       const secure = options.secure;
       const sameSite = options.sameSite;
+      const domain = options.domain;
       if (typeof secure === 'undefined' || typeof sameSite === 'undefined') {
         throw new AuthSdkError('storage.set: "secure" and "sameSite" options must be provided');
       }
       var cookieOptions: CookieOptions = {
         path: options.path || '/',
         secure,
-        sameSite
+        sameSite,
+        domain,
       };
 
       // eslint-disable-next-line no-extra-boolean-cast
